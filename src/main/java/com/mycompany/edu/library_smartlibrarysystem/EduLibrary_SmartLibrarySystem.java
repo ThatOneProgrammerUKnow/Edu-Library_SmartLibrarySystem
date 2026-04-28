@@ -22,7 +22,6 @@ public class EduLibrary_SmartLibrarySystem {
         
 
         
-        
         //=====| Author and books
         List<Author> authorList = new ArrayList<>();
         
@@ -32,6 +31,9 @@ public class EduLibrary_SmartLibrarySystem {
         authorList.add(new Author("Serah", "Maas"));
         authorList.getLast().addBook("Throne of glass", paperback, fiction, 400, 188.00d, 3);
         
+        //=====| Members
+        List<Member> allMembers = new ArrayList<>();
+        allMembers.add(new Member("Kobus", "van Schalkwyk", "kobus.vs.2006@gmail.com"));
         
         //=====| Initializing objects and variables
         // Objects
@@ -61,7 +63,6 @@ public class EduLibrary_SmartLibrarySystem {
         
         
         // Collections framework
-        List<Member> allMembers = null;
         List<Book> allBooks;
         
         
@@ -108,15 +109,18 @@ public class EduLibrary_SmartLibrarySystem {
                     // Creating author object
                     authorList.add(new Author(firstName, lastName));
                     
+                    System.out.println("============================================================");
+                    
                 }
                 //=====| Add book |=====
                 case 2 -> {
                     System.out.println("===| Adding a book to the system |===");
                     
                     // Get author firstName and lastName from user
-                    System.out.println("Enter author first name of new book: ");
+                    System.out.println("Enter the first name of the books author: ");
                     firstName = input.nextLine();
-                    System.out.println("Enter author last name of new book: ");
+                    
+                    System.out.println("Enter the first name of the books author: ");
                     lastName = input.nextLine();
                     
                     // Lookup author with firstName and lastName and save to currentAuthor
@@ -178,19 +182,21 @@ public class EduLibrary_SmartLibrarySystem {
                             break;
                     }
                     try{
-                        currentAuthor.addBook(lastName, bookCover, bookCategory, bookPages, bookValue, bookQty);
+                        currentAuthor.addBook(bookTitle, bookCover, bookCategory, bookPages, bookValue, bookQty);
                     } catch (Exception e){
-                        System.err.println("System error: " + e);
+                        System.err.println("System error: " + e.getMessage());
                     }
                     System.out.println("Book succesfully created!");
+                    System.out.println("============================================================");
                 }
                 
                 case 3 -> { //=====| View available books |=====
+                    System.out.println("\n===| Listing all books in the system |===");
                     allBooks = Book.getBooks();
-                    System.out.println("\nHere are all the books in the system:");
                     for (Book book : allBooks){
                         System.out.println("Book title: " + book.getName() + "\nCurrently available: " + book.getAvailability() + "\n\n");
                     }
+                    System.out.println("============================================================");
                 }
                 
                 case 4 -> { //=====| Register member |=====
@@ -210,10 +216,10 @@ public class EduLibrary_SmartLibrarySystem {
                     try {
                         allMembers.add(new Member(firstName, lastName, email));
                     } catch (Exception e){
-                        System.err.println("System exception: " + e);
+                        System.err.println("System exception: " + e.getMessage());
                     }
-                    
-                    
+                    System.out.println("============================================================");
+
                 }
                 case 5 -> { //=====| Borrow book |=====
                     System.out.println("===| Borrowing book |===");
@@ -223,8 +229,8 @@ public class EduLibrary_SmartLibrarySystem {
                     System.out.println("Enter member email: ");
                     try {
                         email = input.nextLine();
-                    } catch (Exception e){
-                        System.out.println("System exception: " + e);
+                    } catch (NullPointerException e){
+                        System.out.println("System exception: " + e.getMessage());
                         break;
                     }
                     
@@ -247,11 +253,15 @@ public class EduLibrary_SmartLibrarySystem {
                     
                     
                     // --->>> Call the borrow method on the member, passing in the book as a parameter
-                    if (currentBook == null){
+                    try{
+                        currentMember.borrowBook(currentBook);
+                    } catch (Exception e) {
+                        System.err.println("System error: " + e.getMessage());
                         break;
                     }
-                    currentMember.borrowBook(currentBook);
-                    System.out.println("Succsesfullt borrowed book!\n");
+                    
+                    System.out.println("Succsesfully borrowed book!\n");
+                    System.out.println("============================================================");
                     
                 }
                 case 6 -> { //=====| Return book |=====
@@ -282,16 +292,22 @@ public class EduLibrary_SmartLibrarySystem {
                     // --->>> Return book
                     // Use call the return method on currentMember and pass currentBook as a parameter
                     currentMember.returnBook(currentBook);
+                    System.out.println("============================================================");
                 }
                 case 7 -> { //=====| View all members |=====
                     // Get all members list
+                    System.out.println("===| Listing all members |===");
                     allMembers = Member.listMembers();
 
                     // Display list to terminal
                     for (Member member : allMembers){
-                        System.out.println();
+                        System.out.println(member);
                     }
                     System.out.println("");
+                    System.out.println("============================================================");
+                }
+                case 8 -> { //=====| Exit Program |=====
+                    runProgram = false;
                 }
                     }
 

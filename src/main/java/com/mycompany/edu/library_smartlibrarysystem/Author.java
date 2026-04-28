@@ -39,7 +39,8 @@ public class Author extends Person{
     
     public static Author lookup(String firstName, String lastName){
         for (Author author : allAuthors){
-            if (author.firstName.equals(firstName) && author.lastName.equals(lastName)){
+            if (author.firstName.toUpperCase().equals(firstName.toUpperCase()) && 
+                    author.lastName.toUpperCase().equals(lastName.toUpperCase())){
                 return author;
             }
             

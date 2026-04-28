@@ -45,6 +45,11 @@ public class Member extends ContactablePerson implements IncreaseMoney, Decrease
         this.dept -= amount;
     }
     
+    @Override
+    public String toString(){
+        return ("Name: " + this.firstName + " " + this.lastName + " Email: " + this.getEmail());
+    }
+    
     //===| Other methods
     public void borrowBook(Member this, Book book){
         try{
@@ -72,12 +77,12 @@ public class Member extends ContactablePerson implements IncreaseMoney, Decrease
     public static Member lookup(String email){
         for (Member member : allMembers){
             // If a member is found that matches the lookup parametres
-            if (member.email.equals(email)){
+            if (member.getEmail().equals(email.toLowerCase())){
                 return member;
             }
         }
         // If the member was not found
-        return null;
+        throw new NullPointerException("Member not found");
     }
     
     

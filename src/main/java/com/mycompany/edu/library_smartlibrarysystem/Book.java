@@ -85,12 +85,14 @@ public class Book implements IncreaseMoney, SetMoney{
     public static Book lookup(String bookName, String authorFirstName, String authorLastName){
         for (Book book : allBooks){
             // If a book is found that matches the lookup parametres
-            if (book.name.equals(bookName) && book.author.getFirstName().equals(authorFirstName) && book.author.getLastName().equals(authorLastName)){
+            if (book.name.toUpperCase().equals(bookName.toUpperCase()) && 
+                    book.author.getFirstName().toUpperCase().equals(authorFirstName.toUpperCase()) && 
+                    book.author.getLastName().toUpperCase().equals(authorLastName.toUpperCase())){
                 return book;
             }
         }
         // If the book was not found
-        return null;
+        throw new NullPointerException("Book not found"); 
     }
     
     //===| Getters and setters

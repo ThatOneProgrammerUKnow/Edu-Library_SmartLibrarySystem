@@ -48,6 +48,6 @@ class Email{
     
     // ===| Constructor
     public Email(String email){
-        setEmail(email);
+        setEmail(email.toLowerCase());
     }
 }
