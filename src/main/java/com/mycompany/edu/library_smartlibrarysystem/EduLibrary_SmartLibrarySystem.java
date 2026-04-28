@@ -13,6 +13,11 @@ public class EduLibrary_SmartLibrarySystem {
 
     public static void main(String[] args) {
         //===================| Creating mock data for all the classes
+        //=====| User
+        // NOTE: Initiating a password like this is not safe at all. In a real-organizational viewpoint, the password would be encrypted
+        // and go through other securiy measures. This is only for assesment purposes
+        User librarian = new User("Dave", "Machintoch", "Machie", "dave@gmail.com", "Password12345!"); 
+        
         //=====| Categories and covers
         Cover paperback = new Cover("Paperback");
         Cover hardback = new Cover("HardBack");
@@ -66,6 +71,25 @@ public class EduLibrary_SmartLibrarySystem {
         List<Book> allBooks;
         
         
+        //===================| Login
+        boolean loginSuccessfull = false;
+        String password;
+        System.out.println("=====| Login |=====");
+        while (!loginSuccessfull){
+            System.out.println("Email: ");
+            email = input.nextLine();
+            
+            System.out.println("Password: ");
+            password = input.nextLine();
+            
+            if (email.equals(librarian.getEmail())){
+                loginSuccessfull = librarian.verifyPassword(password);
+            }  
+            
+            if (!loginSuccessfull){
+                System.out.println("Incorrect email or password.\n");
+            }
+        }
         
         //===================| Main loop
         boolean runProgram = true;

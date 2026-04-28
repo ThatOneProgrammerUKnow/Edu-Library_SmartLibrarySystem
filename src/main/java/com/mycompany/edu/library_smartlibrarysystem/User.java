@@ -11,7 +11,7 @@ package com.mycompany.edu.library_smartlibrarysystem;
 public class User extends ContactablePerson{
     final private int id;
     private String userName;
-    final private String password;
+    private String password;
     
     static int totalObjects = 0;
    //===| Constructor
@@ -23,6 +23,15 @@ public class User extends ContactablePerson{
         
         totalObjects++;
     }
+    
+    // Other
+    public boolean verifyPassword(String password){
+        if (this.password.equals(password)){
+            return true;
+        }
+        return false;
+    }
+    
     
     // Getters and setter
     public int getId(){
