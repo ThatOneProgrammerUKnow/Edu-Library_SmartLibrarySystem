@@ -13,16 +13,22 @@ import java.util.*;
 public class Member extends ContactablePerson implements IncreaseMoney, DecreaseMoney{
     final private int id;
     private double dept = 0d;
-    private ArrayList<BorrowedBook> borrowedBooks;
+    private ArrayList<BorrowedBook> borrowedBooks = new ArrayList<>();
     
     
-    static int totalObjects = 0;
+    
+    
+    private static int totalObjects = 0;
+    private static List<Member> allMembers = new ArrayList<>();
     
     //===| Constructor
     public Member(String name, String lastName, String email){
         super(name, lastName, email);
         this.id = totalObjects;
+        
+        
         totalObjects++;
+        allMembers.add(this);
     }
     //===| Overrides
     @Override
@@ -63,6 +69,18 @@ public class Member extends ContactablePerson implements IncreaseMoney, Decrease
     }
     
     
+    public Member lookUp(String firstName, String lastName){
+        for (Member member : this.allMembers){
+            // If a member is found that matches the lookup parametres
+            if (member.firstName.equals(firstName) && member.lastName.equals(lastName)){
+                return member;
+            }
+        }
+        // If the member was not found
+        return null;
+    }
+    
+    
     //===| Getters and setters
     public double getDept(){
         return this.getDept();
@@ -72,5 +90,9 @@ public class Member extends ContactablePerson implements IncreaseMoney, Decrease
         return borrowedBooks;
     }
     
+    
+    public static List<Member> listMembers(){
+        return allMembers;
+    }
     
 }

@@ -24,6 +24,7 @@ public class Book implements IncreaseMoney, SetMoney{
     
     // Static
     private static List<Book> allBooks = new ArrayList<>();
+    private static List<Book> availableBooks = new ArrayList<>();
     static int totalObjects = 0;
     
     //===| Constructor
@@ -46,6 +47,8 @@ public class Book implements IncreaseMoney, SetMoney{
         
         // Static
         totalObjects++;
+        
+        allBooks.add(this);
         
     }
     //===| Overrides
@@ -101,5 +104,9 @@ public class Book implements IncreaseMoney, SetMoney{
     
     public int getAvailability(){
         return this.available;
+    }
+    
+    public static List<Book> getBooks(){
+        return allBooks;
     }
 }

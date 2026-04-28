@@ -38,10 +38,9 @@ public class EduLibrary_SmartLibrarySystem {
         Scanner input = new Scanner(System.in);
         
         Author currentAuthor;
-        
-        
         // userInput variables
-        String strInput = "";
+        
+        
         int intInput = 0;
         
         String firstName;

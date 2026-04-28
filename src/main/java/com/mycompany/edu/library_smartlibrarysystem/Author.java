@@ -8,16 +8,19 @@ package com.mycompany.edu.library_smartlibrarysystem;
  *
  * @author kobus
  */
-import java.util.ArrayList;
+import java.util.*;
 
 public class Author extends Person{
     private int totalBooksInLibrary;
-    private ArrayList<Book> bookList;
+    private List<Book> bookList = new ArrayList<>();
+    
+    private static List<Author> allAuthors = new ArrayList<>();
     
     
     //===| Constructor
-    public Author(String name, String lastName){
-        super(name, lastName);
+    public Author(String firstName, String lastName){
+        super(firstName, lastName);
+        allAuthors.add(this);
     }
     
     //==| Getters and setters    
@@ -33,4 +36,14 @@ public class Author extends Person{
         bookList.add(new Book(name, cover, category, totalPages, value, quantity, this));
         
     }
+    
+    public static Author lookup(String firstName, String lastName){
+        for (Author author : allAuthors){
+            if (author.firstName.equals(firstName) && author.lastName.equals(lastName)){
+                return author;
+            }
+            
+        }
+        return null;
+    } 
 }
