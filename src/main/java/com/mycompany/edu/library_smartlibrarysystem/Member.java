@@ -69,10 +69,10 @@ public class Member extends ContactablePerson implements IncreaseMoney, Decrease
     }
     
     
-    public Member lookUp(String firstName, String lastName){
-        for (Member member : this.allMembers){
+    public static Member lookup(String email){
+        for (Member member : allMembers){
             // If a member is found that matches the lookup parametres
-            if (member.firstName.equals(firstName) && member.lastName.equals(lastName)){
+            if (member.email.equals(email)){
                 return member;
             }
         }

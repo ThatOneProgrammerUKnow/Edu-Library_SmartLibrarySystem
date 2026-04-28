@@ -38,6 +38,8 @@ public class EduLibrary_SmartLibrarySystem {
         Scanner input = new Scanner(System.in);
         
         Author currentAuthor;
+        Member currentMember;
+        Book currentBook;
         // userInput variables
         
         
@@ -45,6 +47,7 @@ public class EduLibrary_SmartLibrarySystem {
         
         String firstName;
         String lastName;
+        String email;
         
         String bookTitle;
         int bookCoverOption;
@@ -58,7 +61,7 @@ public class EduLibrary_SmartLibrarySystem {
         
         
         // Collections framework
-        List<Member> allMembers;
+        List<Member> allMembers = null;
         List<Book> allBooks;
         
         
@@ -93,6 +96,7 @@ public class EduLibrary_SmartLibrarySystem {
             
 
             switch (intInput){
+                //=====| Add Author |=====
                 case 1 -> {
                     // Getting author -first and -last name from user
                     System.out.println("===| Creating an Author |===");
@@ -103,7 +107,9 @@ public class EduLibrary_SmartLibrarySystem {
                     
                     // Creating author object
                     authorList.add(new Author(firstName, lastName));
+                    
                 }
+                //=====| Add book |=====
                 case 2 -> {
                     System.out.println("===| Adding a book to the system |===");
                     
@@ -178,38 +184,117 @@ public class EduLibrary_SmartLibrarySystem {
                     }
                     System.out.println("Book succesfully created!");
                 }
-                        case 3 -> {
-                            allBooks = Book.getBooks();
-                            System.out.println("\nHere are all the books in the system:");
-                            for (Book book : allBooks){
-                                System.out.println("Book title: " + book.getName() + "\nCurrently available: " + book.getAvailability() + "\n\n");
-                            }
+                
+                case 3 -> { //=====| View available books |=====
+                    allBooks = Book.getBooks();
+                    System.out.println("\nHere are all the books in the system:");
+                    for (Book book : allBooks){
+                        System.out.println("Book title: " + book.getName() + "\nCurrently available: " + book.getAvailability() + "\n\n");
+                    }
                 }
-                        case 4 -> {
+                
+                case 4 -> { //=====| Register member |=====
+                    System.out.println("===| Creating a new member |===");
+                    
+                    // Get member first name, last name and email from user
+                    System.out.println("Enter the new members first name: ");
+                    firstName = input.nextLine();
+                    
+                    System.out.println("Enter the new members last name: ");
+                    lastName = input.nextLine();
+                    
+                    System.out.println("Enter the new members email: ");
+                    email = input.nextLine();
+                    
+                    // Create member object
+                    try {
+                        allMembers.add(new Member(firstName, lastName, email));
+                    } catch (Exception e){
+                        System.err.println("System exception: " + e);
+                    }
+                    
+                    
                 }
-                        case 5 -> {
+                case 5 -> { //=====| Borrow book |=====
+                    System.out.println("===| Borrowing book |===");
+                    
+                    // --->>> Get member object
+                    // Get member email from user
+                    System.out.println("Enter member email: ");
+                    try {
+                        email = input.nextLine();
+                    } catch (Exception e){
+                        System.out.println("System exception: " + e);
+                        break;
+                    }
+                    
+                    // Lookup member and save as currentMember
+                    currentMember = Member.lookup(email);
+                    
+                    // --->>> Get book object
+                    // Get book title and author name from user
+                    System.out.println("\nEnter the title of the book to be borrowed: ");
+                    bookTitle = input.nextLine();
+                    
+                    System.out.println("Enter the first name of the author of the book to be borrowed: ");
+                    firstName = input.nextLine();
+                    
+                    System.out.println("Enter the last name of the author of the book to be borrowed: ");
+                    lastName = input.nextLine();
+                    
+                    // Lookup book
+                    currentBook = Book.lookup(bookTitle, firstName, lastName);
+                    
+                    
+                    // --->>> Call the borrow method on the member, passing in the book as a parameter
+                    if (currentBook == null){
+                        break;
+                    }
+                    currentMember.borrowBook(currentBook);
+                    System.out.println("Succsesfullt borrowed book!\n");
+                    
                 }
-                        case 6 -> {
+                case 6 -> { //=====| Return book |=====
+                    System.out.println("\n===| Return a book |===");
+                    // --->>> Get member
+                    // Get member email with user input
+                    System.out.println("Enter the member email:");
+                    email = input.nextLine();
+                    
+                    // Lookup member and save it as currentMember
+                    System.out.println("Enter member email: ");
+                    currentMember = Member.lookup(email);
+                    
+                    // --->>> GetBook 
+                    // Get book title and author name with user input
+                    System.out.println("Enter the book title: ");
+                    bookTitle = input.nextLine();
+                    
+                    System.out.println("Enter the authors first name: ");
+                    firstName = input.nextLine();
+                    
+                    System.out.println("Enter the authors last name: ");
+                    lastName = input.nextLine();
+                    
+                    // Lookup book and save it as currentBook
+                    currentBook = Book.lookup(bookTitle, firstName, lastName);
+                    
+                    // --->>> Return book
+                    // Use call the return method on currentMember and pass currentBook as a parameter
+                    currentMember.returnBook(currentBook);
                 }
-                        case 7 -> {
-                            // Get all members list
-                            allMembers = Member.listMembers();
+                case 7 -> { //=====| View all members |=====
+                    // Get all members list
+                    allMembers = Member.listMembers();
 
-                            // Display list to terminal
-                            for (Member member : allMembers){
-                                System.out.println();
-                            }
-                            System.out.println("");
+                    // Display list to terminal
+                    for (Member member : allMembers){
+                        System.out.println();
+                    }
+                    System.out.println("");
                 }
                     }
-            //=====| Add author |=====
-            //=====| Add book  |=====
-            //=====| View available books |=====
-            //=====| Register member |=====
-            //=====| Borrow book |=====
-            //=====| Return book |=====
-            //=====| View all members |=====
-            
+
         }
         
         

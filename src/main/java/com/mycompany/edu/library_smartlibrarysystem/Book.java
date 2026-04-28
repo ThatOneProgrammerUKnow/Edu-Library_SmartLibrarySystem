@@ -82,10 +82,10 @@ public class Book implements IncreaseMoney, SetMoney{
     }
     
     //---> Lookup
-    public Book lookUp(String bookName, String authorName){
-        for (Book book : this.allBooks){
+    public static Book lookup(String bookName, String authorFirstName, String authorLastName){
+        for (Book book : allBooks){
             // If a book is found that matches the lookup parametres
-            if (book.name.equals(bookName) && book.author.getFirstName().equals(authorName)){
+            if (book.name.equals(bookName) && book.author.getFirstName().equals(authorFirstName) && book.author.getLastName().equals(authorLastName)){
                 return book;
             }
         }
