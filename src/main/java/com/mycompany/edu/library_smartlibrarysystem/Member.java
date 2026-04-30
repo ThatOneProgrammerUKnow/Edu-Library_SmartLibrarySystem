@@ -88,7 +88,7 @@ public class Member extends ContactablePerson implements IncreaseMoney, Decrease
     
     //===| Getters and setters
     public double getDept(){
-        return this.getDept();
+        return this.dept;
     }
     
     public ArrayList<BorrowedBook> getBorrowedBooks(){

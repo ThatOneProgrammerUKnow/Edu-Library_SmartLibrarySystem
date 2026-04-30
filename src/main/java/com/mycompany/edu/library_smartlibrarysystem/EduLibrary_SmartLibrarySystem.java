@@ -51,6 +51,7 @@ public class EduLibrary_SmartLibrarySystem {
         
         
         int intInput = 0;
+        double doubleInput = 0d;
         
         String firstName;
         String lastName;
@@ -107,13 +108,16 @@ public class EduLibrary_SmartLibrarySystem {
         while (runProgram == true){
             System.out.println("What do you want to do? Enter the number of the action you want to complete. E.g > 1");
             System.out.println("""
-                               1. Add Author
-                               2. Add book
-                               3. View available books
-                               4. Register member
-                               5. Borrow book
-                               6. Return book
-                               7. View all members
+                               1. Exit the program
+                               2. Add Author
+                               3. Add book
+                               4. View available books
+                               5. Register member
+                               6. Borrow book
+                               7. Return book
+                               8. View all members
+                               9. View member dept
+                               10. Update member dept
                                """);
             intInput = input.nextInt();
             input.nextLine();
@@ -121,8 +125,14 @@ public class EduLibrary_SmartLibrarySystem {
             
 
             switch (intInput){
+                
+                //=====| Exit the program |=====
+                case 1 -> { //=====| Exit Program |=====
+                    runProgram = false;
+                }
+                
                 //=====| Add Author |=====
-                case 1 -> {
+                case 2 -> {
                     // Getting author -first and -last name from user
                     System.out.println("===| Creating an Author |===");
                     System.out.println("Enter the first name of the new author: ");
@@ -137,7 +147,9 @@ public class EduLibrary_SmartLibrarySystem {
                     
                 }
                 //=====| Add book |=====
-                case 2 -> {
+                
+              
+                case 3 -> {
                     System.out.println("===| Adding a book to the system |===");
                     
                     // Get author firstName and lastName from user
@@ -214,7 +226,7 @@ public class EduLibrary_SmartLibrarySystem {
                     System.out.println("============================================================");
                 }
                 
-                case 3 -> { //=====| View available books |=====
+                case 4 -> { //=====| View available books |=====
                     System.out.println("\n===| Listing all books in the system |===");
                     allBooks = Book.getBooks();
                     for (Book book : allBooks){
@@ -223,7 +235,7 @@ public class EduLibrary_SmartLibrarySystem {
                     System.out.println("============================================================");
                 }
                 
-                case 4 -> { //=====| Register member |=====
+                case 5 -> { //=====| Register member |=====
                     System.out.println("===| Creating a new member |===");
                     
                     // Get member first name, last name and email from user
@@ -245,7 +257,7 @@ public class EduLibrary_SmartLibrarySystem {
                     System.out.println("============================================================");
 
                 }
-                case 5 -> { //=====| Borrow book |=====
+                case 6 -> { //=====| Borrow book |=====
                     System.out.println("===| Borrowing book |===");
                     
                     // --->>> Get member object
@@ -253,7 +265,7 @@ public class EduLibrary_SmartLibrarySystem {
                     System.out.println("Enter member email: ");
                     try {
                         email = input.nextLine();
-                    } catch (NullPointerException e){
+                    } catch (Exception e){
                         System.out.println("System exception: " + e.getMessage());
                         break;
                     }
@@ -288,16 +300,21 @@ public class EduLibrary_SmartLibrarySystem {
                     System.out.println("============================================================");
                     
                 }
-                case 6 -> { //=====| Return book |=====
+                case 7 -> { //=====| Return book |=====
                     System.out.println("\n===| Return a book |===");
-                    // --->>> Get member
+                    // --->>> Get member object
                     // Get member email with user input
                     System.out.println("Enter the member email:");
                     email = input.nextLine();
                     
                     // Lookup member and save it as currentMember
-                    System.out.println("Enter member email: ");
-                    currentMember = Member.lookup(email);
+                    try {
+                        currentMember = Member.lookup(email);
+                    } catch (Exception e){
+                        System.err.println("System exception: " + e.getMessage());
+                        break;
+                    }
+                    
                     
                     // --->>> GetBook 
                     // Get book title and author name with user input
@@ -318,7 +335,7 @@ public class EduLibrary_SmartLibrarySystem {
                     currentMember.returnBook(currentBook);
                     System.out.println("============================================================");
                 }
-                case 7 -> { //=====| View all members |=====
+                case 8 -> { //=====| View all members |=====
                     // Get all members list
                     System.out.println("===| Listing all members |===");
                     allMembers = Member.listMembers();
@@ -330,8 +347,67 @@ public class EduLibrary_SmartLibrarySystem {
                     System.out.println("");
                     System.out.println("============================================================");
                 }
-                case 8 -> { //=====| Exit Program |=====
-                    runProgram = false;
+                
+                case 9 -> { //=====| Get member dept =====|
+                    System.out.println("===| Get member dept |===");
+                    // --->>> Get member object
+                    // Get member email with user input
+                    System.out.println("Enter the member email:");
+                    email = input.nextLine();
+                    
+                    // Lookup member and save it as currentMember
+                    try {
+                        currentMember = Member.lookup(email);
+                    } catch (Exception e){
+                        System.err.println("System exception: " + e.getMessage());
+                        break;
+                    }
+                   
+                    // --->>> Get dept
+                    System.out.println("The total dept for " + currentMember.getFirstName() + " " + currentMember.getLastName() + " is: R " + currentMember.getDept());
+                }
+                case 10 -> { //=====| Update Member dept |=====
+                    System.out.println("===| Updating member dept |===");
+                    // --->>> Get member object
+                    // Get member email with user input
+                    System.out.println("Enter the member email:");
+                    email = input.nextLine();
+                    
+                    // Lookup member and save it as currentMember
+                    try {
+                        currentMember = Member.lookup(email);
+                    } catch (Exception e){
+                        System.err.println("System exception: " + e.getMessage());
+                        break;
+                    }
+                    
+                    // --->>> Update dept
+                    // Ask user for amount they want to increase or decrease
+                    System.out.println("How much money (R) do you want to increase/decrease?");
+                    doubleInput = input.nextDouble();
+                    
+                    // Ask user for a increase or decrease in dept
+                    System.out.println("Do you want to: 1. Increase dept, 2. Decrease dept");
+                    intInput = input.nextInt();
+                    input.nextLine();
+                    
+                    // Update dept accordingly
+                    switch (intInput){
+                        case 1 -> { // Increase Dept
+                            try{
+                                currentMember.increaseMoney(doubleInput);
+                            } catch (Exception e) {
+                                System.err.println("System exception: " + e.getMessage());
+                            }
+                        } 
+                        case 2 -> { // Decrease Dept
+                            try{
+                                currentMember.decreaseMoney(doubleInput);
+                            } catch (Exception e) {
+                                System.err.println("System exception: " + e.getMessage());
+                            }
+                        }
+                    }
                 }
                     }
 
